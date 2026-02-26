@@ -137,7 +137,7 @@ class BankUser():
     
     
         sender_email = "er089542@gmail.com"
-        app_password = "tsdg qrxq umrm efcm" 
+        app_password = "" 
         receiver_email = self._email
 
  
@@ -168,7 +168,7 @@ class BankUser():
             return True
         print(" Սխալ կոդ ")
         return False
-user = BankUser("Ero", "Geghamyan", 19, "ghroyan03@mail.ru", 4083060040281582, 100, 1234)
+user = BankUser("Ero", "Geghamyan", 19, "erik.geghamyan@mail.ru", 4083060040281582, 100, 1234)
 
 while True:
     print("\n--- Մենյու ---")
