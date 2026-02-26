@@ -100,7 +100,7 @@ class BankUser():
         if self.__check_access():
             return f"{self._name} - {self._last_name} "
     
-    #  կունենա մեթոդ, որը կվերադարձնի քարտի համարը և գումարը, բայց միայն ճիշտ pin կոդը հավաքելուց հետո,
+    
     
     def is_valid_pin(self,pin):
         if not self.__check_access():
@@ -121,16 +121,26 @@ class BankUser():
     def return_card_money(self,pin):
         if self.is_valid_pin(pin):
              return f"{self.__card, self.__money}"
+    def add_money(self,pin,money):
+        if self.is_valid_pin(pin):
+            self.__money += money
+    def withdraw_money(self,pin,money):
+        if self.is_valid_pin(pin):
+            if self.__money < money:
+                print("Anbavarar mijocner")
+            else:
+                self.__money  -= money
+                print(f"hashivy kazmum e {self.__money} hanvec -{money}")
     def send_recovery_email(self):
-    # 1. Գեներացնում ենք 6-անիշ կոդը
+   
         self.__recovery_code = random.randint(100000, 999999)
     
-    # 2. Կարգավորումներ (Սա քո տվյալներն են)
+    
         sender_email = "er089542@gmail.com"
-        app_password = "."  # Սա սովորական գաղտնաբառը չէ (տես ստորև)
+        app_password = "tsdg qrxq umrm efcm" 
         receiver_email = self._email
 
-    # 3. Նամակի բովանդակությունը
+ 
         message = MIMEMultipart()
         message["From"] = sender_email
         message["To"] = receiver_email
@@ -140,9 +150,9 @@ class BankUser():
         message.attach(MIMEText(body, "plain"))
 
         try:
-        # 4. Միացում Gmail-ի սերվերին (SMTP)
+        
             with smtplib.SMTP("smtp.gmail.com", 587) as server:
-                server.starttls()  # Անվտանգ միացում
+                server.starttls()  
                 server.login(sender_email, app_password)
                 server.send_message(message)
                 print(f" Վերականգնման կոդն ուղարկվեց {self._email} հասցեին:")
@@ -154,15 +164,15 @@ class BankUser():
             self.__block = False
             self.__tries = 0
             self.__recovery_code = None
-            print("🔓 Հասանելիությունը վերականգնվեց (Доступ восстановлен):")
+            print(" Հասանելիությունը վերականգնվեց (Доступ восстановлен):")
             return True
         print(" Սխալ կոդ ")
         return False
-user = BankUser("Ero", "Geghamyan", 19, "erik.geghamyan@mail.ru", 4083060040281582, 100, 1234)
+user = BankUser("Ero", "Geghamyan", 19, "ghroyan03@mail.ru", 4083060040281582, 100, 1234)
 
 while True:
     print("\n--- Մենյու ---")
-    print("1. Տեսնել անունը\n2. Տեսնել քարտի տվյալները\n3. Վերականգնել մուտքը (եթե բլոկ է)\n4. Ելք")
+    print("1. Տեսնել անունը\n2. Տեսնել քարտի տվյալները\n3. Վերականգնել մուտքը (եթե բլոկ է) \n4. ավելացնել գումար \n5.հանել գումար\n6 Ելք")
     choice = input("Ընտրեք գործողությունը: ")
 
     if choice == "1":
@@ -180,6 +190,13 @@ while True:
         user.send_recovery_email()
         rec_code = input("Մուտքագրեք էլ. փոստին եկած 6-անիշ կոդը: ")
         user.recover_access(rec_code)
-        
-    elif choice == "4":
+    elif choice =="4":
+        money = int(input("mutqagreq gumaryi chapy "))
+        pin = int(input("Մուտքագրեք PIN: "))
+        user.add_money(pin,money)
+    elif choice =="5":
+        money = int(input("mutqagreq gumaryi chapy "))
+        pin = int(input("Մուտքագրեք PIN: "))
+        user.withdraw_money(pin,money)
+    elif choice == "6":
         break
